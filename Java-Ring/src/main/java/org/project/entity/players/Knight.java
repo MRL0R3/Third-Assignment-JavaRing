@@ -32,7 +32,8 @@ public class Knight extends Player {
             kickCooldown = 3;
         }
         else{
-            System.out.println("Kick ability is on recharge (" + kickCooldown + " turns remaining)");
+            System.out.println("Kick ability is on recharge ("
+            + kickCooldown + " turns remaining)");
         }
 
     }
