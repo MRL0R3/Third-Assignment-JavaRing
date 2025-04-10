@@ -6,6 +6,7 @@ import org.project.object.weapons.Weapon;
 
 // TODO: UPDATE IMPLEMENTATION(Updated)
 public abstract class Player implements Entity {
+
     protected String name;
     Weapon weapon;
     Armor armor;
@@ -13,7 +14,10 @@ public abstract class Player implements Entity {
     private int maxHP;
     private int mp;
     private int maxMP;
-
+    private int experience = 0;
+    private int level = 1;
+    private boolean isDefending = false;
+    
     public Player(String name, int hp, int mp, Weapon weapon, Armor armor) {
         this.name = name;
         this.hp = hp;
@@ -23,21 +27,42 @@ public abstract class Player implements Entity {
         this.armor = armor;
     }
 
-    
+    public void gainExperience(int amount) {
+        experience += amount;
+        System.out.println("Gained " + amount + " XP!");
+
+        if (experience >= level * 100) {
+            levelUp();
+        }
+    }
+
+    private void levelUp() {
+        level++;
+        maxHP += 10;
+        hp = maxHP;
+        System.out.println("Level up! Now level " + level);
+    }
+
     @Override
     public void attack(Entity target) {
         target.takeDamage(weapon.getDamage());
     }
 
+
     @Override
     public void defend() {
-        // TODO: (BONUS) IMPLEMENT A DEFENSE METHOD FOR SHIELDS
+        isDefending = true;
+        System.out.println(getName() + " raises their guard!");
     }
-
-    // TODO: (BONUS) UPDATE THE FORMULA OF TAKING DAMAGE
     @Override
     public void takeDamage(int damage) {
-        hp -= damage - armor.getDefense();
+        int finalDamage = isDefending ? 
+            Math.max(1, damage/2 - armor.getDefense()) : 
+            Math.max(1, damage - armor.getDefense());
+        
+        hp -= finalDamage;
+        isDefending = false;
+        System.out.println(getName() + " takes " + finalDamage + " damage!");
     }
 
     @Override
@@ -55,7 +80,6 @@ public abstract class Player implements Entity {
             mp = maxMP;
         }
     }
-
 
     public String getName() {
         return name;
