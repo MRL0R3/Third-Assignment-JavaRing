@@ -15,20 +15,17 @@ public class Sword extends Weapon {
     }
 
 
+    public void chargingAbility(){ abilityCharge += 2; }
+    
     public void fireWhirlAttack(ArrayList<Entity> targets) {
-        abilityCharge += 2;
+        
         if(abilityCharge >= 3){
             for(Entity target : targets) {
                 target.takeDamage(getDamage() * 2);
             }
-            abilityCharge = 0;
+            abilityCharge -= 2;
             System.out.println("Firewhirl attack!");
         }
-        else {
-            System.out.println("Ability is not charged yet!");
-        }
-    }
-    public void chargingAbility(){
-        abilityCharge++;
+        else {System.out.println("Ability is not charged yet!");}
     }
 }
