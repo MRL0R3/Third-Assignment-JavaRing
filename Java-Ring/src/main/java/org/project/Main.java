@@ -1,9 +1,10 @@
 package org.project;
 
-import org.project.location.Location;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.project.location.Location;
 
 public class Main {
     public static void main(String[] args) {
