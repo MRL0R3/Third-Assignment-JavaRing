@@ -1,26 +1,31 @@
 package org.project.object.weapons;
 
-import org.project.entity.Entity;
-
 import java.util.ArrayList;
 
-// TODO: UPDATE IMPLEMENTATION
-public class Sword {
-    /*
-    THIS IS AN EXAMPLE OF A WEAPON DESIGN.
-    */
+import org.project.entity.Entity;
+
+
+public class Sword extends Weapon {
 
     int abilityCharge;
 
     public Sword() {
-        // TODO: DESIGN SWORD'S ATTRIBUTES IMPLEMENT THE CONSTRUCTOR
+        super(20, 10);
+        this.abilityCharge = 0;
     }
 
-    // TODO: (BONUS) UPDATE THE UNIQUE ABILITY
-    public void uniqueAbility(ArrayList<Entity> targets) {
-        abilityCharge += 2;
-        for (Entity target : targets) {
-            target.takeDamage(getDamage());
+
+    public void chargingAbility(){ abilityCharge += 2; }
+    
+    public void fireWhirlAttack(ArrayList<Entity> targets) {
+        
+        if(abilityCharge >= 3){
+            for(Entity target : targets) {
+                target.takeDamage(getDamage() * 2);
+            }
+            abilityCharge -= 2;
+            System.out.println("Firewhirl attack!");
         }
+        else {System.out.println("Ability is not charged yet!");}
     }
 }
