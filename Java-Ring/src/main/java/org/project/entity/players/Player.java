@@ -37,6 +37,7 @@ public abstract class Player implements Entity {
         this.inventory.add(new Flask()); // Starting item
     }
 
+
     @Override
     public void attack(Entity target) {
         weapon.use(target);
