@@ -1,6 +1,6 @@
 package org.project.object.weapons;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.project.entity.Entity;
 
@@ -10,22 +10,33 @@ public class Sword extends Weapon {
     int abilityCharge;
 
     public Sword() {
-        super(20, 10);
+        super("Stell Sword" , 25 , 15, 100);
         this.abilityCharge = 0;
     }
 
 
-    public void chargingAbility(){ abilityCharge += 2; }
-    
-    public void fireWhirlAttack(ArrayList<Entity> targets) {
-        
-        if(abilityCharge >= 3){
-            for(Entity target : targets) {
-                target.takeDamage(getDamage() * 2);
+  
+    @Override
+    public void specialAbility(List<Entity> targets) {
+        if (abilityCharge >= 3) {
+            System.out.println("Executing Whirlwind Slash!");
+            for (Entity target : targets) {
+                target.takeDamage(baseDamage * 2);
             }
-            abilityCharge -= 2;
-            System.out.println("Firewhirl attack!");
+            abilityCharge = 0;
+        } else {
+            System.out.printf("Need %d more attacks to charge!\n", 3 - abilityCharge);
         }
-        else {System.out.println("Ability is not charged yet!");}
     }
+    @Override
+    public void use(Entity target) {
+        super.use(target);
+        gainCharge();
+    }
+    private void gainCharge() {
+        if (abilityCharge < 3) {
+            abilityCharge++;
+        }
+    }
+    
 }

@@ -10,7 +10,7 @@ public interface Entity {
 
     // Status methods
     boolean isAlive();
-    String getname();
+
     int getHealth();
     int getMaxHealth();
 
@@ -24,7 +24,9 @@ public interface Entity {
     // Resource management
     void gainExperience(int amount);
     default boolean isDefending() { return false; }
-
+    void healMana(int amount);
+    default int getMana() { return 0; }
+    default int getMaxMana() { return 0; }
 
     
     String getDescription();

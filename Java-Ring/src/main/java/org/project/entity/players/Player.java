@@ -1,35 +1,82 @@
 package org.project.entity.players;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.project.entity.Entity;
 import org.project.object.armors.Armor;
+import org.project.object.consumables.Consumable;
+import org.project.object.consumables.Flask;
 import org.project.object.weapons.Weapon;
 
-// TODO: UPDATE IMPLEMENTATION(Updated)
 public abstract class Player implements Entity {
 
-    protected String name;
-    Weapon weapon;
-    Armor armor;
-    private int hp;
-    private int maxHP;
-    private int mp;
-    private int maxMP;
-    private int experience = 0;
-    private int level = 1;
-    private boolean isDefending = false;
-    
-    public Player(String name, int hp, int mp, Weapon weapon, Armor armor) {
-        this.name = name;
-        this.hp = hp;
-        this.mp = mp;
+    protected final  String name;
+    protected int health;
+    protected int maxHealth;
+    protected static int mana;
+    protected static int maxMana;
+    protected Weapon weapon;
+    protected Armor armor;
+    protected int level;
+    protected int experience;
+    protected static List<Consumable> inventory;
+    protected boolean defending;
 
+    public Player(String name, int maxHealth, int maxMana, Weapon weapon, Armor armor) {
+        this.name = name;
+        this.maxHealth = maxHealth;
+        this.health = maxHealth;
+        this.maxMana = maxMana;
+        this.mana = maxMana;
         this.weapon = weapon;
         this.armor = armor;
+        this.level = 1;
+        this.experience = 0;
+        this.inventory = new ArrayList<>();
+        this.inventory.add(new Flask()); // Starting item
+        this.maxMana = maxMana;
+        this.mana = maxMana;
     }
 
+
+    public abstract void use(Entity target);
+
+    @Override
+    public void attack(Entity target) {
+        weapon.use(target);
+    }
+
+    @Override
+    public void defend() {
+        defending = true;
+        System.out.println(name + " takes defensive stance!");
+    }
+
+    @Override
+    public void takeDamage(int amount) {
+        int reducedDamage = armor.protect(amount);
+        health -= reducedDamage;
+        defending = false;
+
+        System.out.printf("%s took %d damage (reduced from %d)%n",
+                name, reducedDamage, amount);
+
+        if (health <= 0) {
+            System.out.println(name + " has been defeated!");
+        }
+    }
+
+    @Override
+    public void heal(int amount) {
+        health = Math.min(health + amount, maxHealth);
+        System.out.println(name + " recovered " + amount + " HP!");
+    }
+
+    @Override
     public void gainExperience(int amount) {
         experience += amount;
-        System.out.println("Gained " + amount + " XP!");
+        System.out.println(name + " gained " + amount + " XP!");
 
         if (experience >= level * 100) {
             levelUp();
@@ -38,69 +85,46 @@ public abstract class Player implements Entity {
 
     private void levelUp() {
         level++;
-        maxHP += 10;
-        hp = maxHP;
-        System.out.println("Level up! Now level " + level);
+        maxHealth += 10;
+        maxMana += 5;
+        health = maxHealth;
+        mana = maxMana;
+        System.out.printf("%s leveled up to %d!%n", name, level);
     }
 
-    @Override
-    public void attack(Entity target) {
-        target.takeDamage(weapon.getDamage());
-    }
-
-
-    @Override
-    public void defend() {
-        isDefending = true;
-        System.out.println(getName() + " raises their guard!");
-    }
-    @Override
-    public void takeDamage(int damage) {
-        int finalDamage = isDefending ? 
-            Math.max(1, damage/2 - armor.getDefense()) : 
-            Math.max(1, damage - armor.getDefense());
-        
-        hp -= finalDamage;
-        isDefending = false;
-        System.out.println(getName() + " takes " + finalDamage + " damage!");
-    }
-
-    @Override
-    public void heal(int health) {
-        hp += health;
-        if (hp > maxHP) {
-            hp = maxHP;
+    // Inventory management
+    public void useItem(int index) {
+        if (index >= 0 && index < inventory.size()) {
+            Consumable item = inventory.get(index);
+            item.use(this);
+            if (item.getRemainingUses() <= 0) {
+                inventory.remove(index);
+            }
         }
     }
 
+    // Getters
     @Override
-    public void fillMana(int mana) {
-        mp += mana;
-        if (mp > maxMP) {
-            mp = maxMP;
-        }
-    }
-
     public String getName() {
         return name;
     }
 
-    public int getHp() {
-        return hp;
+    @Override
+    public int getHealth() {
+        return health;
     }
 
     @Override
-    public int getMaxHP() {
-        return maxHP;
+    public int getMaxHealth() {
+        return maxHealth;
     }
 
-    public int getMp() {
-        return mp;
+    public int getMana() {
+        return mana;
     }
 
-    @Override
-    public int getMaxMP() {
-        return maxMP;
+    public int getMaxMana() {
+        return maxMana;
     }
 
     public Weapon getWeapon() {
@@ -111,4 +135,31 @@ public abstract class Player implements Entity {
         return armor;
     }
 
+    public int getLevel() {
+        return level;
+    }
+
+    public int getExperience() {
+        return experience;
+    }
+
+    public List<Consumable> getInventory() {
+        return inventory;
+    }
+
+    @Override
+    public boolean isAlive() {
+        return health > 0;
+    }
+
+    @Override
+    public boolean isDefending() {
+        return defending;
+    }
+
+    @Override
+    public void healMana(int amount) {
+        mana = Math.min(maxMana, mana + amount);
+        System.out.println(name + " recovered " + amount + " MP!");
+    }
 }
