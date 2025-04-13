@@ -6,6 +6,9 @@ import org.project.entity.enemies.Dragon;
 import org.project.entity.enemies.Enemy;
 import org.project.entity.enemies.Goblin;
 import org.project.entity.enemies.Skeleton;
+import org.project.object.weapons.Claw;
+import org.project.object.weapons.Dagger;
+import org.project.object.weapons.RustySword;
 
 public class Location {
 
@@ -26,22 +29,37 @@ public class Location {
         this.biome = biome;
     }
 
-    public Enemy generateEnemy() {
+//    public Enemy generateEnemy() {
+//        int scaledHealth = 50 + (dangerLevel * 20);
+//        int scaledExp = 30 + (dangerLevel * 10);
+//        int enemyType = random.nextInt(3); // 0=Goblin, 1=Skeleton, 2=Dragon
+//
+//        return switch (enemyType) {
+//            case 0 -> new Goblin(scaledHealth, scaledExp, new Dagger());
+//            case 1 -> new Skeleton(scaledHealth, scaledExp, new RustySword());
+//            case 2 -> new Dragon(scaledHealth, scaledExp, new Claw());
+//            default -> throw new IllegalStateException("Invalid enemy type");
+//        };
+//    }
+public Enemy generateEnemy() {
+    try {
         int scaledHealth = 50 + (dangerLevel * 20);
         int scaledExp = 30 + (dangerLevel * 10);
-        
-        // Biome-based enemy weights
-        double[] weights = getBiomeWeights();
-        double roll = random.nextDouble() * 100;
-        
-        if (roll < weights[0]) {
-            return new Goblin(scaledHealth, scaledExp);
-        } else if (roll < weights[0] + weights[1]) {
-            return new Skeleton(scaledHealth, scaledExp);
-        } else {
-            return new Dragon(scaledHealth, scaledExp);
-        }
+        int enemyType = random.nextInt(3); // 0-2
+
+        System.out.println("Generating enemy type: " + enemyType); // Debug
+
+        return switch (enemyType) {
+            case 0 -> new Goblin(scaledHealth, scaledExp, new Dagger());
+            case 1 -> new Skeleton(scaledHealth, scaledExp, new RustySword());
+            case 2 -> new Dragon(scaledHealth, scaledExp, new Claw());
+            default -> throw new IllegalStateException("Invalid enemy type");
+        };
+    } catch (Exception e) {
+        System.err.println("Failed to generate enemy: " + e.getMessage());
+        return null; // Or create a default enemy
     }
+}
 
     private double[] getBiomeWeights() {
         return switch (biome) {
