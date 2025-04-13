@@ -46,6 +46,11 @@ public class Knight extends Player {
     }
 
     @Override
+    public void use(Entity target) {
+
+    }
+
+    @Override
     public void attack(Entity target) {
         super.attack(target);
         reduceCooldowns();
