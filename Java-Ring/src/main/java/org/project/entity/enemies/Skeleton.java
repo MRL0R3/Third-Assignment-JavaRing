@@ -40,6 +40,21 @@ public class Skeleton extends Enemy {
 //        Enemies don't gain experience
     }
 
+    @Override
+    public boolean isDefending() {
+        return super.isDefending();
+    }
+
+    @Override
+    public void healMana(int amount) {
+
+    }
+
+    @Override
+    public int getMana() {
+        return super.getMana();
+    }
+
     private void resurrect() {
         health = maxHealth / 2;
         hasResurrected = true;

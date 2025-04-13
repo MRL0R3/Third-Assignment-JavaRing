@@ -18,6 +18,21 @@ public class Goblin extends Enemy {
     }
 
     @Override
+    public boolean isDefending() {
+        return super.isDefending();
+    }
+
+    @Override
+    public void healMana(int amount) {
+
+    }
+
+    @Override
+    public int getMana() {
+        return super.getMana();
+    }
+
+    @Override
     public void takeDamage(int amount) {
         if (Math.random() < DODGE_CHANCE) {
             System.out.println("Goblin nimbly dodges the attack!");
