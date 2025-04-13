@@ -1,7 +1,6 @@
 package org.project.entity.enemies;
 
 import org.project.entity.Entity;
-import org.project.entity.enemies.Enemy;
 import org.project.object.weapons.Claw;
 
 public class Dragon extends Enemy {
@@ -11,8 +10,8 @@ public class Dragon extends Enemy {
     private int fireBreathCooldown = 0;
     private static final double BURN_CHANCE = 0.3;
 
-    public Dragon(int health, int expReward) {
-        super("Ancient Dragon", health, new Claw(), expReward);
+    public Dragon(int health, int expReward, Claw claw) {
+        super("Dragon", health, new Claw(), expReward);
         this.usedFireBreath = false;
     }
 
@@ -20,10 +19,10 @@ public class Dragon extends Enemy {
     @Override
     public void attack(Entity target) {
         if (!usedFireBreath && health < maxHealth / 2) {
-            fireBreath(target);
+            useSpecialAbility(target);
             usedFireBreath = true;
         } else if (fireBreathCooldown <= 0 && Math.random() < 0.25) {
-            fireBreath(target);
+            useSpecialAbility(target);
             fireBreathCooldown = FIRE_BREATH_COOLDOWN;
         } else {
             super.attack(target);
@@ -33,9 +32,9 @@ public class Dragon extends Enemy {
         }
     }
 
-    
 
-    private void fireBreath(Entity target) {
+@Override
+    public void useSpecialAbility(Entity target) { // fire breath
         System.out.println("Dragon rears back and unleashes a torrent of flames!");
         int baseDamage = (int) (weapon.getDamage() * 2.5);
         int actualDamage = target.isDefending() ? baseDamage / 2 : baseDamage;
@@ -43,13 +42,13 @@ public class Dragon extends Enemy {
         target.takeDamage(actualDamage);
         System.out.printf("%s takes %d fire damage!%n", target.getName(), actualDamage);
 
-        if (Math.random() < BURN_CHANCE) {
+        if (Math.random() < BURN_CHANCE)
+        {
             int burnDamage = (int) (baseDamage * 0.3);
             applyBurn(target, burnDamage);
         }
         this.takeDamage((int) (maxHealth * 0.05));
     }
-
     private void applyBurn(Entity target, int burnDamage) {
         System.out.printf(" %s catches fire and will take %d damage over time!%n",
                 target.getName(), burnDamage * 3);
@@ -75,10 +74,23 @@ public class Dragon extends Enemy {
         super.takeDamage(reducedDamage);
         System.out.println("Dragon's scales reduce damage to " + reducedDamage + "!");
     }
+
+    @Override
+    public String getName() {
+        return "Dragon";
+    }
+
+
+
+    @Override
+    public void gainExperience(int amount) {
+
+    }
+
     @Override
     public String getDescription() {
         return String.format(
-            "Ancient dragon with fiery breath (Reduces damage by 25% | Health: %d/%d)",
+            "Dragon with fiery breath (Reduces damage by 25% | Health: %d/%d)",
             health, maxHealth
         );
     }
