@@ -24,7 +24,9 @@ public interface Entity {
     // Resource management
     void gainExperience(int amount);
     default boolean isDefending() { return false; }
-
+    void healMana(int amount);
+    default int getMana() { return 0; }
+    default int getMaxMana() { return 0; }
 
     
     String getDescription();
