@@ -14,13 +14,13 @@ public abstract class Player implements Entity {
     protected final  String name;
     protected int health;
     protected int maxHealth;
-    protected int mana;
-    protected int maxMana;
+    protected static int mana;
+    protected static int maxMana;
     protected Weapon weapon;
     protected Armor armor;
     protected int level;
     protected int experience;
-    protected List<Consumable> inventory;
+    protected static List<Consumable> inventory;
     protected boolean defending;
 
     public Player(String name, int maxHealth, int maxMana, Weapon weapon, Armor armor) {
@@ -35,8 +35,12 @@ public abstract class Player implements Entity {
         this.experience = 0;
         this.inventory = new ArrayList<>();
         this.inventory.add(new Flask()); // Starting item
+        this.maxMana = maxMana;
+        this.mana = maxMana;
     }
 
+
+    public abstract void use(Entity target);
 
     @Override
     public void attack(Entity target) {
@@ -151,5 +155,11 @@ public abstract class Player implements Entity {
     @Override
     public boolean isDefending() {
         return defending;
+    }
+
+    @Override
+    public void healMana(int amount) {
+        mana = Math.min(maxMana, mana + amount);
+        System.out.println(name + " recovered " + amount + " MP!");
     }
 }
