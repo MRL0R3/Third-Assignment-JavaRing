@@ -1,17 +1,17 @@
 package org.project.entity.enemies;
 
 import org.project.entity.Entity;
-import org.project.entity.enemies.Enemy;
+import org.project.object.weapons.Dagger;
 
 public class Goblin extends Enemy {
     private static final double DODGE_CHANCE = 0.25;
     private static final int STEAL_AMOUNT = 5;
     private boolean hasStolen = false;
 
-    public Goblin(int health, int expReward) {
+    public Goblin(int health, int expReward, Dagger dagger) {
         super("Goblin", health, new Dagger(), expReward);
     }
-    
+
     @Override
     public void gainExperience(int amount) {
         // Enemies don't gain experience
@@ -25,10 +25,14 @@ public class Goblin extends Enemy {
         }
         super.takeDamage(amount);  
     }
+
     @Override
     public String getName() {
         return "Goblin";
     }
+
+
+
     @Override
     public void useSpecialAbility(Entity target) {
         if (!hasStolen) {
