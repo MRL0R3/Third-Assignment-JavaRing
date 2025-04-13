@@ -6,9 +6,19 @@ import org.project.object.weapons.Sword;
 public class Knight extends Player {
 
     @Override
-    public String getname() {
+    public String getName() {
         return this.name;
     }
+    public boolean hasKickReady() {
+        return kickCooldown <= 0;
+    }
+    @Override
+    public String getDescription() {
+        return String.format("%s - Lvl %d Knight (%d/%d HP) | %s",
+                name, level, health, maxHealth,
+                hasKickReady() ? "Kick Ready" : "Kick CD: " + kickCooldown);
+    }
+
     private int kickCooldown;
     private static final int KICK_DAMAGE = 35;
 
