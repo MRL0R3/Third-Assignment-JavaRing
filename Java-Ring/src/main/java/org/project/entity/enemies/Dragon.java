@@ -88,6 +88,21 @@ public class Dragon extends Enemy {
     }
 
     @Override
+    public void healMana(int amount) {
+
+    }
+
+    @Override
+    public int getMana() {
+        return super.getMana();
+    }
+
+    @Override
+    public int getMaxMana() {
+        return super.getMaxMana();
+    }
+
+    @Override
     public String getDescription() {
         return String.format(
             "Dragon with fiery breath (Reduces damage by 25% | Health: %d/%d)",
