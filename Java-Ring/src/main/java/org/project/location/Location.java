@@ -29,7 +29,7 @@ public class Location {
         this.biome = biome;
     }
 
-//    public Enemy generateEnemy() {
+    //    public Enemy generateEnemy() {
 //        int scaledHealth = 50 + (dangerLevel * 20);
 //        int scaledExp = 30 + (dangerLevel * 10);
 //        int enemyType = random.nextInt(3); // 0=Goblin, 1=Skeleton, 2=Dragon
@@ -41,25 +41,25 @@ public class Location {
 //            default -> throw new IllegalStateException("Invalid enemy type");
 //        };
 //    }
-public Enemy generateEnemy() {
-    try {
-        int scaledHealth = 50 + (dangerLevel * 20);
-        int scaledExp = 30 + (dangerLevel * 10);
-        int enemyType = random.nextInt(3); // 0-2
+    public Enemy generateEnemy() {
+        try {
+            int scaledHealth = 50 + (dangerLevel * 20);
+            int scaledExp = 30 + (dangerLevel * 10);
+            int enemyType = random.nextInt(3); // 0-2
 
-        System.out.println("Generating enemy type: " + enemyType); // Debug
+            System.out.println("Generating enemy type: " + enemyType); // Debug
 
-        return switch (enemyType) {
-            case 0 -> new Goblin(scaledHealth, scaledExp, new Dagger());
-            case 1 -> new Skeleton(scaledHealth, scaledExp, new RustySword());
-            case 2 -> new Dragon(scaledHealth, scaledExp, new Claw());
-            default -> throw new IllegalStateException("Invalid enemy type");
-        };
-    } catch (Exception e) {
-        System.err.println("Failed to generate enemy: " + e.getMessage());
-        return null; // Or create a default enemy
+            return switch (enemyType) {
+                case 0 -> new Goblin(scaledHealth, scaledExp, new Dagger());
+                case 1 -> new Skeleton(scaledHealth, scaledExp, new RustySword());
+                case 2 -> new Dragon(scaledHealth, scaledExp, new Claw());
+                default -> throw new IllegalStateException("Invalid enemy type");
+            };
+        } catch (Exception e) {
+            System.err.println("Failed to generate enemy: " + e.getMessage());
+            return null; // Or create a default enemy
+        }
     }
-}
 
     private double[] getBiomeWeights() {
         return switch (biome) {
