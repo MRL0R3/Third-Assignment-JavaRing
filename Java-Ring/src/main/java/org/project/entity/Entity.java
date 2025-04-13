@@ -10,7 +10,7 @@ public interface Entity {
 
     // Status methods
     boolean isAlive();
-    String getname();
+
     int getHealth();
     int getMaxHealth();
 
