@@ -131,20 +131,12 @@ Want to **earn extra points**? Try implementing one of these:
 ✅ **Multiple Weapons System** ⚔️ *(Extra Score!)*  
 - Players and monsters can **switch between different weapons** during combat instead of being limited to one.  
 
-✅ **Multiple Players Mode** 👥 *(Extra Score!)*  
-- Implement a **party-based battle system** where **multiple players** can fight against **monsters together**.  
-
 ✅ **Dragon’s Multi-Target Attack** 🐉 *(Extra Score!)*  
 - If there are **multiple players in the battle**, the **dragon’s unique ability** should **damage all players simultaneously** instead of just one.  
 
-✅ **(Bonus) Inventory System**  
-- Allow players to **pick up and use items** like different classes of shields and more potions.  
-
-✅ **(Bonus) Experience & Leveling System**  
+✅ Experience & Leveling System**  
 - Players gain XP from battles and level up, increasing their **attack power**.  
 
-✅ **(Bonus) PvP Mode**  
-- Implement a **Player vs. Player** combat system.  
 
 By implementing any of these extra features, you can earn additional points to boost your final score! 🚀  
 
