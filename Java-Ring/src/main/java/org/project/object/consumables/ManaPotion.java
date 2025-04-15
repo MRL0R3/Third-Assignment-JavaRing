@@ -1,7 +1,6 @@
 package org.project.object.consumables;
 
 import org.project.entity.Entity;
-import org.project.object.consumables.Consumable;
 
 public class ManaPotion extends Consumable {
     private static final int MANA_RESTORE = 40;
